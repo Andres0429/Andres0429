@@ -1,0 +1,152 @@
+{
+  "fields": [
+    {
+      "name": "lot_size_sqft",
+      "output_column": "lot_size_sqft",
+      "dtype": "float",
+      "required": true,
+      "default": "UNKNOWN",
+      "extraction_hints": {
+        "keywords": [
+          "lot size",
+          "sqft",
+          "lot area"
+        ],
+        "selectors": [],
+        "evidence_required": true
+      },
+      "preferred_sources": [
+        "official_county",
+        "city_property_card",
+        "zillow",
+        "redfin"
+      ],
+      "validators": {
+        "min": 100,
+        "max": 500000,
+        "unit": "sqft"
+      },
+      "dependencies": []
+    },
+    {
+      "name": "zoning_code",
+      "output_column": "zoning_code",
+      "dtype": "str",
+      "required": true,
+      "default": "UNKNOWN",
+      "extraction_hints": {
+        "keywords": [
+          "zoning",
+          "zone district",
+          "land use code"
+        ],
+        "selectors": [],
+        "evidence_required": true
+      },
+      "preferred_sources": [
+        "city_zoning",
+        "official_county"
+      ],
+      "validators": {
+        "regex": "^[A-Za-z0-9\\\\-]+$"
+      },
+      "dependencies": []
+    },
+    {
+      "name": "max_buildable_sqft",
+      "output_column": "max_buildable_sqft",
+      "dtype": "float",
+      "required": false,
+      "default": "UNKNOWN",
+      "extraction_hints": {
+        "keywords": [
+          "max buildable",
+          "FAR",
+          "building coverage"
+        ],
+        "selectors": [],
+        "evidence_required": true
+      },
+      "preferred_sources": [
+        "city_zoning",
+        "official_county"
+      ],
+      "validators": {
+        "min": 100,
+        "max": 100000,
+        "unit": "sqft"
+      },
+      "dependencies": [
+        "lot_size_sqft",
+        "zoning_code"
+      ]
+    },
+    {
+      "name": "target_build_sqft",
+      "output_column": "target_build_sqft",
+      "dtype": "float",
+      "required": true,
+      "default": "UNKNOWN",
+      "extraction_hints": {
+        "keywords": [],
+        "selectors": [],
+        "evidence_required": false
+      },
+      "preferred_sources": [],
+      "validators": {
+        "min": 100,
+        "max": 20000,
+        "unit": "sqft"
+      },
+      "dependencies": [
+        "max_buildable_sqft"
+      ]
+    },
+    {
+      "name": "arv_estimate_usd",
+      "output_column": "arv_estimate_usd",
+      "dtype": "float",
+      "required": true,
+      "default": "UNKNOWN",
+      "extraction_hints": {
+        "keywords": [],
+        "selectors": [],
+        "evidence_required": true
+      },
+      "preferred_sources": [
+        "redfin",
+        "zillow",
+        "mls_public"
+      ],
+      "validators": {
+        "min": 10000,
+        "max": 50000000,
+        "unit": "usd"
+      },
+      "dependencies": [
+        "target_build_sqft"
+      ]
+    },
+    {
+      "name": "max_offer_usd",
+      "output_column": "max_offer_usd",
+      "dtype": "float",
+      "required": true,
+      "default": "UNKNOWN",
+      "extraction_hints": {
+        "keywords": [],
+        "selectors": [],
+        "evidence_required": false
+      },
+      "preferred_sources": [],
+      "validators": {
+        "min": 1000,
+        "max": 20000000,
+        "unit": "usd"
+      },
+      "dependencies": [
+        "arv_estimate_usd"
+      ]
+    }
+  ]
+}

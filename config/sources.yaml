@@ -1,0 +1,33 @@
+{
+  "default": {
+    "lot_size_sqft": [
+      "official_county",
+      "city_property_card",
+      "zillow",
+      "redfin"
+    ],
+    "zoning_code": [
+      "city_zoning",
+      "official_county"
+    ],
+    "max_buildable_sqft": [
+      "city_zoning",
+      "official_county"
+    ],
+    "arv_estimate_usd": [
+      "redfin",
+      "zillow",
+      "mls_public"
+    ]
+  },
+  "jurisdiction_overrides": {
+    "TN": {
+      "Davidson": {
+        "zoning_code": [
+          "nashville_zoning_portal",
+          "official_county"
+        ]
+      }
+    }
+  }
+}
